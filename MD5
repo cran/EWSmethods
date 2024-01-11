@@ -1,7 +1,7 @@
-d89784e0bc92d520d73cc3f976eec002 *DESCRIPTION
+e1c06374b35b666db4a9e8f9521050c3 *DESCRIPTION
 14a2edbd4fae5f213a35f6e1ab6a974f *LICENSE
 c7faefddb2bc8f37c9a7d33b07134083 *NAMESPACE
-0cb191240dc83aaa3a81fc6f868b6248 *NEWS.md
+bf58e1aa8e78d75293a2eae06a09a542 *NEWS.md
 efcbb50b89f06548064a451002dc1dec *R/GFisher.R
 3c3b0b27be8bce557f5e64ea096a7568 *R/NFisherpdf.R
 fbed621e0bcaea934cf5fb4e6c305663 *R/conda_clean.R
@@ -19,7 +19,7 @@ d44a8c78d8a0125aad99977e6cf2e259 *R/ewsnet_predict.R
 42f18e7afd3408888046c60cc4314776 *R/no_plot_rolling_ews_fn.R
 ca01cc0e1e4dc638402717c555d3ed03 *R/perm_rollEWS.R
 60a830f6cccb983eaa24b290b7f787b9 *R/plotEWS.R
-2de9023837cd93a22dc8c32cac384e1d *R/reset_ewsnet.R
+92da516659fab03ccae5943ad48e4da7 *R/reset_ewsnet.R
 d5c35cbb4a33248da00cee9743ace4c7 *R/roundTO.R
 36b5d2067aca97201099cd2b8cb9f9ea *R/smapJ_index.R
 c17f89872e20cc5963302ae2195c0796 *R/smap_jacobian.R
@@ -35,7 +35,7 @@ b1c3a21568ccce2ef36a67ddd54a7f9d *data/simTransComms.rda
 0cb9bc484d31bf8130c6473214cc96fa *inst/CITATION
 b00a088f1de787a847294d78943c27dd *inst/doc/ews_assessments.R
 6a768ff527ca370466c5ebf02e981777 *inst/doc/ews_assessments.Rmd
-b33aa8466e235692e639eb8731beb8fc *inst/doc/ews_assessments.html
+c0f9e5259981d213522ec45217c4d632 *inst/doc/ews_assessments.html
 99f01a7aea80a34e8c02095ca622840a *inst/python/src/inference/ewsNET_generic.py
 d316e63c47dbe88e55e6ecf164131979 *inst/python/src/inference/ewsnet.py
 3f3e8f65765f102ed0781d02044a5c82 *inst/python/src/inference/ewsnet_pred_rand.py
@@ -80,7 +80,7 @@ be676ed6d94d223c5c6b511277485f7c *tests/testthat/test-multiAR.R
 116b30a35b9dc0153fb4ea1a2ce5b137 *tests/testthat/test-multivariate_composite_ews_wrapper.R
 a1809d9dc0f3fd1a5f95b19c3d0637cc *tests/testthat/test-mvi.R
 960271b8cc921e6b25422c59065a354c *tests/testthat/test-perm_rollEWS.R
-55fc941509f0f4d8518b000a154889ac *tests/testthat/test-reset_ewsnet.R
+311fa1317dfede37bf28d5472f9899ef *tests/testthat/test-reset_ewsnet.R
 a6429f7772fc91f88956d96ee00c182c *tests/testthat/test-smapJ_index.R
 9aee5d20527ba211c1aff2dd36cddd99 *tests/testthat/test-uni_smapJI.R
 2d5452a838ebefda5b700b710f5ecc40 *tests/testthat/test-univariate_composite_ews_wrapper.R

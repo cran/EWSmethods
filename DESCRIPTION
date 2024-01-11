@@ -1,7 +1,7 @@
 Type: Package
 Package: EWSmethods
 Title: Forecasting Tipping Points at the Community Level
-Version: 1.2.4
+Version: 1.2.5
 Authors@R: c(
     person(given   = "Duncan",
            family  = "O'Brien",
@@ -36,9 +36,9 @@ Description: Rolling and expanding window approaches to assessing abundance base
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: dplyr (>= 1.0.6), egg, ggplot2, gtools, forecast, foreach,
-        infotheo, mAr, moments, rEDM (>= 1.15.0), reticulate, scales,
-        tidyr, zoo
+Imports: curl, dplyr (>= 1.0.6), egg, ggplot2, gtools, forecast,
+        foreach, infotheo, mAr, moments, rEDM (>= 1.15.0), reticulate,
+        scales, tidyr, zoo
 RoxygenNote: 7.2.3
 URL: https://github.com/duncanobrien/EWSmethods,
         https://duncanobrien.github.io/EWSmethods/
@@ -49,7 +49,7 @@ VignetteBuilder: knitr
 Depends: R (>= 3.5)
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2024-01-09 18:01:34 UTC; ul20791
+Packaged: 2024-01-10 12:54:53 UTC; ul20791
 Author: Duncan O'Brien [aut, cre, cph]
     (<https://orcid.org/0000-0002-3420-5210>),
   Smita Deb [aut] (<https://orcid.org/0000-0001-7037-7055>),
@@ -58,4 +58,4 @@ Author: Duncan O'Brien [aut, cre, cph]
   Partha Dutta [aut] (<https://orcid.org/0000-0001-6067-1023>),
   Christopher Clements [aut] (<https://orcid.org/0000-0001-5677-5401>)
 Repository: CRAN
-Date/Publication: 2024-01-09 19:50:02 UTC
+Date/Publication: 2024-01-11 08:50:07 UTC
