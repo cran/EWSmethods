@@ -15,8 +15,6 @@
 #' @importFrom stats cov
 #' @importFrom stats na.omit
 #' @importFrom stats prcomp
-#' @importFrom dplyr %>%
-#' @importFrom dplyr .data
 #'
 #' @keywords internal
 #' @noRd
@@ -24,6 +22,8 @@
 
 wMAF <- function(data, metrics = c("meanAR","maxAR","meanSD","maxSD","eigenMAF","mafAR","mafSD","pcaAR","pcaSD","eigenCOV","maxCOV","mutINFO"),
                  method = c("rolling","expanding"),winsize , burn_in = 5, tail.direction = "one.tailed",threshold =2){
+
+  metric.score <- metric.code <- NULL
 
   meth <- match.arg(method,choices = c("rolling","expanding"))
   metrics <-match.arg(metrics, choices =  c("meanAR","maxAR","meanSD","maxSD","eigenMAF","mafAR","mafSD","pcaAR","pcaSD","eigenCOV","maxCOV","mutINFO"), several.ok=T)
@@ -72,19 +72,19 @@ wMAF <- function(data, metrics = c("meanAR","maxAR","meanSD","maxSD","eigenMAF",
   }
     output<-do.call("rbind", RES)
 
-    out.cor <- data.frame("meanAR" = cor.test(as.numeric(output$time), output$meanAR, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "maxAR" = cor.test(as.numeric(output$time), output$maxAR, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "meanSD" = cor.test(as.numeric(output$time), output$meanSD, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "maxSD" = cor.test(as.numeric(output$time), output$maxSD, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "eigenMAF" = cor.test(as.numeric(output$time), output$eigenMAF, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "mafAR" = cor.test(as.numeric(output$time), output$mafAR, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "mafSD" = cor.test(as.numeric(output$time), output$mafSD, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "pcaAR" = cor.test(as.numeric(output$time), output$pcaAR, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "pcaSD" = cor.test(as.numeric(output$time), output$pcaSD, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          #"explSD" = cor.test(as.numeric(output$time), output$explSD, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "eigenCOV" = cor.test(as.numeric(output$time), output$eigenCOV, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "maxCOV" = cor.test(as.numeric(output$time), output$maxCOV, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate,
-                          "mutINFO" = cor.test(as.numeric(output$time), output$mutINFO, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate)
+    out.cor <-data.frame("meanAR" = tryCatch({cor.test(as.numeric(output$time), output$meanAR, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){ warning("Correlation coefficents not returned as too few observations"); return(NA)}),
+                          "maxAR" = tryCatch({cor.test(as.numeric(output$time), output$maxAR, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          "meanSD" = tryCatch({cor.test(as.numeric(output$time), output$meanSD, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          "maxSD" = tryCatch({cor.test(as.numeric(output$time), output$maxSD, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          "eigenMAF" = tryCatch({cor.test(as.numeric(output$time), output$eigenMAF, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          "mafAR" = tryCatch({cor.test(as.numeric(output$time), output$mafAR, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          "mafSD" = tryCatch({cor.test(as.numeric(output$time), output$mafSD, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          "pcaAR" = tryCatch({cor.test(as.numeric(output$time), output$pcaAR, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          "pcaSD" = tryCatch({cor.test(as.numeric(output$time), output$pcaSD, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          #"explSD" = tryCatch({cor.test(as.numeric(output$time), output$explSD, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          "eigenCOV" = tryCatch({cor.test(as.numeric(output$time), output$eigenCOV, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          "maxCOV" = tryCatch({cor.test(as.numeric(output$time), output$maxCOV, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}),
+                          "mutINFO" = tryCatch({cor.test(as.numeric(output$time), output$mutINFO, alternative = c("two.sided"), method = c("kendall"), conf.level = 0.95,na.action = na.omit)$estimate}, error = function(e){return(NA)}))
 
   }
 
@@ -166,11 +166,26 @@ wMAF <- function(data, metrics = c("meanAR","maxAR","meanSD","maxSD","eigenMAF",
     }
     results<-do.call("rbind", RES)
 
-    output<-data.frame(results) %>%
-      tidyr::pivot_longer(-c("time"), names_to = "metric.code",values_to = "metric.score") %>%
-      dplyr::group_by(.data$metric.code) %>% dplyr::arrange(.data$time,.by_group = TRUE) %>%
-      dplyr::mutate(rolling.mean = rolling_mean(.data$metric.score),
-             rolling.sd = rolling_sd(.data$metric.score))
+    # output<-data.frame(results) %>%
+    #   tidyr::pivot_longer(-c("time"), names_to = "metric.code",values_to = "metric.score") %>%
+    #   dplyr::group_by(.data$metric.code) %>% dplyr::arrange(.data$time,.by_group = TRUE) %>%
+    #   dplyr::mutate(rolling.mean = rolling_mean(.data$metric.score),
+    #          rolling.sd = rolling_sd(.data$metric.score))
+
+    output <- stats::reshape(data = data.frame(results),
+        direction = "long",
+        varying = colnames(results)[-1],
+        v.names = "metric.score",
+        times = colnames(results)[-1],
+        timevar = "metric.code")  |>
+      transform(id = NULL) |>
+      sort_by(~list(metric.code,time),decreasing = FALSE) |>
+      `rownames<-`(NULL)
+
+    output <- transform(output,
+                       rolling.mean =  stats::ave(metric.score, metric.code, FUN = rolling_mean),
+                       rolling.sd = stats::ave(metric.score,metric.code, FUN = rolling_sd))
+
     output$threshold.crossed<-NA
 
     if(tail.direction == "two.tailed"){

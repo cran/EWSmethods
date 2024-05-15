@@ -65,13 +65,19 @@ uniEWS <- function(data,metrics,method = c("expanding","rolling"),
                    winsize = 50, burn_in = 5, threshold = 2,
                    tail.direction = "one.tailed", trait = NULL){
 
-  method <- match.arg(method,choices = c("expanding","rolling"))
+  method <- match.arg(method,choices = c("rolling","expanding"))
   tail.direction <- match.arg(tail.direction,choices = c("one.tailed","two.tailed"))
-  metrics <- match.arg(metrics,choices = c("cv", "acf", "ar1", "dr", "rr", "skew","kurt","SD","trait"), several.ok=T)
+  metrics <- match.arg(metrics,choices = c("cv", "acf", "ar1", "dr", "rr", "skew","kurt","SD","trait"), several.ok=TRUE)
 
   if(length(class(data)) > 1 & isTRUE(is.data.frame(data))){
     data <- as.data.frame(data)
   } #allows tibbles to be used
+
+  if(NCOL(data)>2 & is.null(trait)){
+    stop('Data contains more than two columns. The first column should be a time vector and the second a time series')
+  }else if(NCOL(data)>3 & !is.null(trait)){
+    stop('Data contains more than three columns. The first column should be a time vector, the second an abundance time series, and third a trait time series')
+  }
 
   if(any(is.na(data))){
     stop('Data contains missing values. Interpolation of missing values is recommended')
@@ -109,8 +115,14 @@ uniEWS <- function(data,metrics,method = c("expanding","rolling"),
     bind.res$str<-(bind.res$metric.score-bind.res$rolling.mean)/bind.res$rolling.sd
 
     if(!is.null(trait)){
-      bind.res<-as.data.frame(bind.res) %>%
-        dplyr::left_join(data.frame("time" = data[,1],"trait" = trait),by = "time")
+      # bind.res<-as.data.frame(bind.res) %>%
+      #   dplyr::left_join(data.frame("time" = data[,1],"trait" = trait),by = "time")
+
+      bind.res<-as.data.frame(bind.res) |>
+        merge(data.frame("time" = data[,1],"trait" = trait),by = "time") |>
+        sort_by(~list(metric.code,time),decreasing = FALSE) |>
+        `rownames<-`(NULL)
+
     }
     out <- list("EWS" = bind.res, "method" = method,"threshold" = threshold, "tail.direction" = tail.direction)
     class(out) <- c("EWSmethods","expEWS","uniEWS")
@@ -121,9 +133,15 @@ uniEWS <- function(data,metrics,method = c("expanding","rolling"),
     bind.res <- no.plot.ews(timeseries = data, winsize = winsize,interpolate = F)
 
     bind.res$raw <- bind.res$raw[,c("timeindex",metrics)]
-    bind.res$raw<-as.data.frame(bind.res$raw) %>%
-      dplyr::left_join(data.frame("timeindex" = data[,1],"count.used" = data[,2]),by = "timeindex") %>%
-      dplyr::rename("time" = "timeindex")
+    # bind.res$raw<-as.data.frame(bind.res$raw) %>%
+    #   dplyr::left_join(data.frame("timeindex" = data[,1],"count.used" = data[,2]),by = "timeindex") %>%
+    #   dplyr::rename("time" = "timeindex")
+
+    bind.res$raw<-as.data.frame(bind.res$raw) |>
+      merge(data.frame("timeindex" = data[,1],"count.used" = data[,2]),by = "timeindex") |>
+      sort_by(~list(timeindex),decreasing = FALSE)
+    colnames(bind.res$raw)[1] <- "time"
+
     bind.res$cor <- bind.res$cor[,metrics]
     out <- list("EWS" = bind.res, "method" = method)
     class(out) <- c("EWSmethods","rollEWS","uniEWS")

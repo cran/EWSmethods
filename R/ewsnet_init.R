@@ -21,6 +21,13 @@
 #' #activate project-local Python environments'
 #' #and restart R.
 #'
+#' #if this fails due to timeout, you may need to
+#' #increase the timeout length using something
+#' #like below:
+#' \donttest{
+#' options(timeout = max(300, getOption("timeout")))
+#' }
+#'
 #' \dontrun{
 #' reticulate::py_config()
 #' }
@@ -55,17 +62,17 @@ ewsnet_init <- function(envname, conda_path = reticulate::miniconda_path(), pip_
         envname = paste0(envname),
         forge = FALSE,environment = NULL)
 
-      if(detect.sys == "Darwin_arm64"){ # specfic install for MACOSX M1 machines
+      if(detect.sys == "Darwin_arm64"){ # specfic install for MACOSX M1 machines (will need to change once tensorflow updates to 2.16)
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_binary,
-                                  packages = c("tensorflow-macos","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow-macos==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain","seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
       }else{
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_binary,
-                                  packages = c("tensorflow","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain","seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
@@ -95,14 +102,14 @@ ewsnet_init <- function(envname, conda_path = reticulate::miniconda_path(), pip_
       if(detect.sys == "Darwin_arm64"){ # specfic install for MACOSX arm machines
       reticulate::conda_install(envname = paste0(envname),
                                 conda = conda_binary,
-                                packages = c("tensorflow-macos","scikit-learn","pandas","matplotlib",
+                                packages = c("tensorflow-macos==2.13.0","scikit-learn",
                                              "sphinxcontrib-matlabdomain","seaborn"),
                                 pip = T, pip_ignore_installed = pip_ignore_installed,
                                 pip_options = "--timeout=1000")
       }else{
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_binary,
-                                  packages = c("tensorflow","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain","seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
@@ -127,14 +134,14 @@ ewsnet_init <- function(envname, conda_path = reticulate::miniconda_path(), pip_
       if(detect.sys == "Darwin_arm64"){
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_binary,
-                                  packages = c("tensorflow-macos","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow-macos==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain","seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
       }else{
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_binary,
-                                  packages = c("tensorflow","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain", "seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
@@ -159,14 +166,14 @@ ewsnet_init <- function(envname, conda_path = reticulate::miniconda_path(), pip_
       if(detect.sys == "Darwin_arm64"){
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_binary,
-                                  packages = c("tensorflow-macos","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow-macos==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain","seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
       }else{
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_binary,
-                                  packages = c("tensorflow","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain","seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
@@ -190,14 +197,14 @@ ewsnet_init <- function(envname, conda_path = reticulate::miniconda_path(), pip_
       if(detect.sys == "Darwin_arm64"){
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_binary,
-                                  packages = c("tensorflow-macos","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow-macos==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain","seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
       }else{
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_binary,
-                                  packages = c("tensorflow","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain","seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
@@ -226,14 +233,14 @@ ewsnet_init <- function(envname, conda_path = reticulate::miniconda_path(), pip_
       if(detect.sys == "Darwin_arm64"){
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_binary,
-                                  packages = c("tensorflow-macos","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow-macos==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain","seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
       }else{
         reticulate::conda_install(envname = paste0(envname),
                                   conda = conda_path,
-                                  packages = c("tensorflow","scikit-learn","pandas","matplotlib",
+                                  packages = c("tensorflow==2.13.0","scikit-learn",
                                                "sphinxcontrib-matlabdomain","seaborn"),
                                   pip = T, pip_ignore_installed = pip_ignore_installed,
                                   pip_options = "--timeout=1000")
